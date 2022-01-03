@@ -72,7 +72,7 @@ For frontend:-
 cd frontend
 npm start
 ```
-Please note always start backend before frontend and when promtd on frontend use different port than localhost:3000 press Y.(because port 3000 is used by Node.js server) \
+Please note always start backend before frontend and when promted on frontend use different port than localhost:3000 press Y.(because port 3000 is used by Node.js server) and never close both terminal on which fontend and backend are running\
 Project should live and running on \
 http://localhost:3001/
 
