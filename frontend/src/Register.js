@@ -31,12 +31,23 @@ export default class Register extends React.Component {
         password2: this.state.password2,
       })
       .then((res) => {
+        if(res.data.status=="success")
+        {
         swal({
-          text: res.data.status,
+          text: res.data.message,
           icon: "success",
           type: "success",
         });
         this.props.history.push("/");
+      }
+      else if(res.data.status=="failure")
+      {
+        swal({
+          text: res.data.message,
+          icon: "error",
+          type: "error",
+        });
+      }
       })
       .catch((err) => {
         swal({

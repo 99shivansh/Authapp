@@ -7,6 +7,7 @@ router.post("/register", async (req, res) => {
   let { firstname,lastname, email, password, password2, country, mobilenumber } = req.body;
 
   let errors = [];
+  var message="";
 
   console.log({
     firstname,
@@ -17,21 +18,25 @@ router.post("/register", async (req, res) => {
     country,
     mobilenumber,
   });
-
+  var reg=new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$");
   if (!firstname||!lastname || !email || !password || !password2 || !country || !mobilenumber) {
-    errors.push({ message: "Please enter all fields" });
+    errors.push({ message: "Please enter all fields\n" });
+    message=message+"# Please enter all fields\n";
   }
 
-  if (password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
+  if (!reg.test(password)) {
+   // console.log(reg.test(password),"regex");
+    errors.push({ message: "Password must be minimum 8 and maximum 15 length, minimum 1 Upper case and lower-case character, minimum 1 numeric character and minimum 1 special character.\n" });
+    message=message+"# Password must be minimum 8 and maximum 15 length, minimum 1 Upper case and lower-case character, minimum 1 numeric character and minimum 1 special character.\n";
   }
 
   if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
+    errors.push({ message: "Passwords do not match\n" });
+    message=message+"# Passwords do not match\n";
   }
 
   if (errors.length > 0) {
-    res.send({ errors, firstname,lastname, email, password, password2 });
+    res.send({status:"failure",message:message,apicall:"register" });
   } else {
     var hashedPassword;
     hashedPassword = await CryptoJS.SHA256(password).toString();
